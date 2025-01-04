@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <title>User List</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link type="text/css" rel="stylesheet" href="../static/bootstrap.min.css" th:href="@{bootstrap.min.css}"/>
+</head>
+<body>
+<div class="col-3"></div>
+<div class="container col-6">
+    <h1>Manage User</h1>
+    <div class="login-logout">
+        <div th:if="${session.currentUser == null}">
+            <a href="/loginUser" class="btn btn-success">Login</a>
+        </div>
+        <div th:if="${session.currentUser != null}">
+            <form th:action="@{/logout}" method="get">
+                <button type="submit" class="btn btn-primary">Logout</button>
+            </form>
+        </div>
+    </div>
+    <table class="table table-active">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phone}"></td>
+            <td>
+                <a th:href="${session.currentUser != null} ? @{/edit?id={id}(id=${user.id})} : '#'" class="btn btn-primary">Edit</a>
+                <a th:href="${session.currentUser != null} ? @{/delete?id={id}(id=${user.id})} : '#'" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    </table>
+    <a th:href="${session.currentUser != null} ? '/add' : '#'" class="btn btn-success">Add User</a>
+    <a href="/find" class="btn btn-success">Find User</a>
+</div>
+</body>
+</html>

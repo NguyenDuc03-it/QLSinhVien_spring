@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Find User</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link type="text/css" rel="stylesheet" href="../static/bootstrap/bootstrap.min.css" th:href="@{bootstrap.min.css}"/>
+</head>
+<body>
+<div class="col-3"></div>
+<div class="container col-6">
+    <h1>Find User</h1>
+    <form th:action="@{/findUser}" method="post">
+        <div class="form-group">
+            <label for="searchTerm">Search Term:</label>
+            <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="Enter search term">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <br>
+    <table class="table table-active" th:if="${users != null}">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.phone}"></td>
+            <td>
+                <a th:href="${session.currentUser != null} ? @{/edit?id={id}(id=${user.id})} : '#'" class="btn btn-primary">Edit</a>
+                <a th:href="${session.currentUser != null} ? @{/delete?id={id}(id=${user.id})} : '#'" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    </table>
+    <a href="/" class="btn btn-success">Back to User List</a>
+</div>
+</body>
+</html>
